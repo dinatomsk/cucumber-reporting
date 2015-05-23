@@ -15,6 +15,7 @@ import net.masterthought.cucumber.generators.FeatureReportPage;
 import net.masterthought.cucumber.generators.StepOverviewPage;
 import net.masterthought.cucumber.generators.TagOverviewPage;
 import net.masterthought.cucumber.generators.TagReportPage;
+import net.masterthought.cucumber.generators.TrendsPage;
 import net.masterthought.cucumber.json.Feature;
 import net.masterthought.cucumber.util.UnzipUtils;
 
@@ -34,6 +35,8 @@ public class ReportBuilder {
     private boolean artifactsEnabled;
     private boolean highCharts;
     private boolean parsingError;
+
+    private SummaryReport summaryReport;
 
     private Map<String, String> customHeader;
 
@@ -190,6 +193,10 @@ public class ReportBuilder {
             ReportParser reportParser = new ReportParser(jsonReports);
             this.reportInformation = new ReportInformation(reportParser.getFeatures());
             // whatever happens we want to provide at least error page instead of empty report
+
+            if (runWithJenkins) {
+                summaryReport = new SummaryReport(reportInformation);
+            }
         } catch (Exception exception) {
             parsingError = true;
             generateErrorPage(exception);
@@ -219,6 +226,14 @@ public class ReportBuilder {
             new TagReportPage(this).generatePage();
             new TagOverviewPage(this).generatePage();
             new StepOverviewPage(this).generatePage();
+
+            if (runWithJenkins) {
+                new TrendsPage(this, this.summaryReport).generatePage();
+
+                ReportStats reportStats = new ReportStats(this.summaryReport, this.reportDirectory);
+                reportStats.saveSummaryReport();
+            }
+
             // whatever happens we want to provide at least error page instead of empty report
         } catch (Exception exception) {
             if (!parsingError) {

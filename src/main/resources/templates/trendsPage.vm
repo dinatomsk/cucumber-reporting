@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Cucumber-JVM Html Reports - Trends</title>
+
+#include("/templates/headers.html")
+
+#include("/styles/reporting.css")
+
+</head>
+<body id="top">
+    <div id="fullwidth_header">
+        <div class="container_12">
+            <h1 class="grid_4 logo"><a href="feature-overview.html" class='ie6fix'>Cucumber</a></h1>
+
+            <div id="nav">
+                <ul>
+                    #if($fromJenkins)
+                        <li><a href="${jenkins_base}job/$build_project/$build_number">Back To Jenkins</a></li>
+                        #if($previous_build_number != -1)
+                            <li><a href="${jenkins_base}job/$build_project/$previous_build_number/cucumber-html-reports/$tag.getFileName()">Previous Build</a></li>
+                        #end
+                        <li><a href="trends-overview.html">History</a></li>
+                    #end
+                    <li><a href="feature-overview.html">Feature Overview</a></li>
+                    <li><a href="tag-overview.html">Tag Overview</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="fullwidth_gradient">
+        <div class="container_12">
+            <div class="grid_9 heading">
+                <h2>Trends for build: $build_number</h2>
+                #if ($hasCustomHeader)
+                  <h3>$customHeader</h3>
+                #end
+            </div>
+        </div>
+    </div>
+
+    <div class="container_12">
+DAMIAN $creationDate
+    </div>
+
+
+    <div class="container_12">
+        <div class="grid_12 hr"></div>
+        <div class="grid_12 footer">
+            <p style="text-align:center;"><a href="https://github.com/masterthought/jenkins-cucumber-jvm-reports-plugin-java">Cucumber-JVM Jenkins Report Plugin</a> - version: $version - $time_stamp</p>
+        </div>
+    </div>
+    <div class="clear"></div>
+</body>

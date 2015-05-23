@@ -33,6 +33,7 @@ public abstract class AbstractPage {
     protected final VelocityEngine ve = new VelocityEngine();
     protected final VelocityContextMap contextMap = VelocityContextMap.of(new VelocityContext());
     private Template template;
+
     /** Name of the html file which will be generated. */
     private final String fileName;
 
